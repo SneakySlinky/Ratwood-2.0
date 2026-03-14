@@ -139,6 +139,7 @@
 		/obj/item/storage/pill_bottle/dice/threes_away,
 		/obj/item/storage/pill_bottle/dice/dice_war,
 		/obj/item/storage/pill_bottle/dice/liars_dice,
+		/obj/item/storage/pill_bottle/dice/dice_poker,
 		/obj/item/toy/cards/deck,
 		/obj/item/folding_table_stored
 	)

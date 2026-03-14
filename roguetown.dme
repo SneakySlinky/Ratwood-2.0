@@ -1066,6 +1066,7 @@
 #include "code\game\objects\items\bakers_dozen.dm"
 #include "code\game\objects\items\threes_away.dm"
 #include "code\game\objects\items\liars_dice.dm"
+#include "code\game\objects\items\dice_poker.dm"
 #include "code\game\objects\items\etherealdiscoball.dm"
 #include "code\game\objects\items\granters.dm"
 #include "code\game\objects\items\hot_potato.dm"

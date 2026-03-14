@@ -48,3 +48,8 @@
 	name = "Liar's Dice Bag"
 	cost = 20
 	contains = list(/obj/item/storage/pill_bottle/dice/liars_dice)
+
+/datum/supply_pack/rogue/games/dice_poker
+	name = "Dice Poker Dice Bag"
+	cost = 20
+	contains = list(/obj/item/storage/pill_bottle/dice/dice_poker)
