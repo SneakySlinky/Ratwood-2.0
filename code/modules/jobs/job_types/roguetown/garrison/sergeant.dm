@@ -89,7 +89,6 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/takeaim)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/onfeet)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/hold)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/order/focustarget)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/convertrole/guard) // We'll just use Watchmen as sorta conscripts yeag?
 	H.verbs |= list(/mob/living/carbon/human/proc/request_outlaw, /mob/proc/haltyell, /mob/living/carbon/human/mind/proc/setorders)
 	backpack_contents = list(
@@ -355,69 +354,6 @@
 	. = ..()
 	to_chat(owner, span_blue("My officer orders me to hold!"))
 
-#define TARGET_FILTER "target_marked"
-
-/obj/effect/proc_holder/spell/invoked/order/focustarget
-	name = "Focus target!"
-	desc = "Tells your underlings to target a vulnerable spot on the enemy. Applies Crit vulnerability on enemy and gives them -2 Fortune."
-	overlay_state = "focustarget"
-
-
-/obj/effect/proc_holder/spell/invoked/order/focustarget/cast(list/targets, mob/living/user)
-	. = ..()
-	if(isliving(targets[1]))
-		var/mob/living/target = targets[1]
-		var/msg = user.mind.focustargettext
-		if(!msg)
-			to_chat(user, span_alert("I must say something to give an order!"))
-			return
-		if(target == user)
-			to_chat(user, span_alert("I cannot order myself to be killed!"))
-			return
-		if(HAS_TRAIT(target, TRAIT_CRITICAL_WEAKNESS))
-			to_chat(user, span_alert("They are already vulnerable!"))
-			return
-		user.say("[msg]")
-		target.apply_status_effect(/datum/status_effect/debuff/order/focustarget)
-		return TRUE
-	revert_cast()
-	return FALSE
-
-/datum/status_effect/debuff/order/focustarget
-	id = "focustarget"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/order/focustarget
-	effectedstats = list(STATKEY_LCK = -2)
-	duration = 1 MINUTES
-	var/outline_colour = "#69050a"
-
-/atom/movable/screen/alert/status_effect/debuff/order/focustarget
-	name = "Targetted"
-	desc = "A officer has marked me for death!"
-	icon_state = "targetted"
-
-/datum/status_effect/debuff/order/focustarget/on_apply()
-	. = ..()
-	var/filter = owner.get_filter(TARGET_FILTER)
-	to_chat(owner, span_alert("I have been marked for death by a officer!"))
-	ADD_TRAIT(owner, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
-	if (!filter)
-		owner.add_filter(TARGET_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 200, "size" = 1))
-	return TRUE
-
-/datum/status_effect/debuff/order/focustarget/on_remove()
-	. = ..()
-	REMOVE_TRAIT(owner, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
-	owner.remove_filter(TARGET_FILTER)
-
-
-/obj/effect/proc_holder/spell/invoked/order/focustarget
-	name = "Focus target!"
-	overlay_state = "focustarget"
-
-
-#undef TARGET_FILTER
-
-
 /mob/living/carbon/human/mind/proc/setorders()
 	set name = "Rehearse Orders"
 	set category = "Voice of Command"
@@ -435,9 +371,5 @@
 		return
 	mind.onfeettext = input("Send a message.", "On your feet!") as text|null
 	if(!mind.onfeettext)
-		to_chat(src, "I must rehearse something for this order...")
-		return
-	mind.focustargettext = input("Send a message.", "Focus Target!") as text|null
-	if(!mind.focustargettext)
 		to_chat(src, "I must rehearse something for this order...")
 		return
