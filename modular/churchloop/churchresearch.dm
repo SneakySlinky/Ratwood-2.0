@@ -4,7 +4,7 @@
 #define MIRACLE_RADIAL_DMI 'icons/mob/actions/roguespells.dmi'
 
 #ifndef QUEST_COOLDOWN_DS
-#define QUEST_COOLDOWN_DS (10)
+#define QUEST_COOLDOWN_DS (10*60*30)
 #endif
 
 #ifndef CLERIC_PRICE_PATRON
@@ -73,8 +73,8 @@ var/global/list/PATRON_ARTIFACTS = list(
 	"Abyssor" = list(/obj/item/fishingrod/abyssoid),
 	"Ravox"   = list(/obj/item/artifact/ravox_lens),
 	"Necra"   = list(/obj/item/artefact/necra_censer),
-	"Xylix"   = list(/obj/item/clothing/gloves/xylix),
-	"Pestra"  = list(/obj/item/rogueweapon/surgery/multitool, /obj/item/needle/pestra, /obj/item/natural/worms/leech/cheele),
+/*	"Xylix"   = list(/obj/item/clothing/gloves/xylix), */
+	"Pestra"  = list(/* /obj/item/rogueweapon/surgery/multitool, */ /obj/item/needle/pestra, /obj/item/natural/worms/leech/cheele),
 	"Malum"   = list(/obj/item/rogueweapon/hammer/artefact/malum),
 	"Eora"    = list(/obj/item/artefact/eora_heart),
 )

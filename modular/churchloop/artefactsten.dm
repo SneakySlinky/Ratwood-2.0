@@ -645,24 +645,25 @@ Necra's Censer (by ARefrigerator)
 
 /obj/item/artefact/eora_heart/examine(mob/user)
 	. = ..()
-	. += "<hr><span class='info'>Use in hand: show your sex partners you had this week.</span><br>" //based on unique procs not logs so no anal oral vagnal stat sorry (i have removed ckey/vv check for it)
-	. += "<span class='info'>Use on a player: show their unique sex partners they had this week.</span><br>"
+	. += "<hr><span class='info'>Use in hand: show your sex partners you had this week.</span><br>"
+	. += "<span class='info'>Use on a player: asks their permission, then shows their unique partners this round.</span><br>"
 
 /obj/item/artefact/eora_heart/attack_self(mob/user)
-	if(world.time + 300)
+	if(world.time < last_used + 300)
 		to_chat(user, span_warning("The heart is quiet. Give it a moment."))
 		return
-	last_used = world.time
 
 	if(!ishuman(user) || !user.client)
 		to_chat(user, span_warning("The heart needs a living player to answer."))
 		return
 
+	last_used = world.time
+
 	var/mob/living/carbon/human/H = user
 	var/cnt = eora_get_partner_count(H)
 	var/list/names = eora_get_partner_names(H)
 
-	to_chat(user, span_notice("Eora's Whisper: You have <b>[cnt]</b> unique partner[cnt==1 ? "" : "s"] this round."))
+	to_chat(user, span_notice("Eora's Whisper: You have <b>[cnt]</b> unique partner[cnt == 1 ? "" : "s"] this round."))
 	if(names && names.len)
 		to_chat(user, "<span class='info'>Names:</span>")
 		for(var/N in names)
@@ -674,31 +675,53 @@ Necra's Censer (by ARefrigerator)
 
 /obj/item/artefact/eora_heart/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
-	if(!proximity_flag) return
-
-	if(world.time < last_used + 300)
-		to_chat(user, span_warning("The heart is quiet. Give it a moment."))
+	if(!proximity_flag)
 		return
-	last_used = world.time
 
 	if(!isliving(target))
 		to_chat(user, span_warning("The heart only answers for living beings."))
 		return
+
 	if(!ishuman(target) || !target:client)
-		to_chat(user, span_warning("The heart only tallies players."))
+		to_chat(user, span_warning("The heart only tallies beings."))
 		return
 
 	var/mob/living/carbon/human/H = target
+
+	if(H == user)
+		attack_self(user)
+		return
+
+	if(world.time < last_used + 300)
+		to_chat(user, span_warning("The heart is quiet. Give it a moment."))
+		return
+
+	var/consent = alert(H, "[user.name] wants to use Eora's Heart on you and see your sex partners this week. Allow it?", "Eora's Heart", "Allow", "Deny")
+	if(consent != "Allow")
+		to_chat(user, span_warning("[H.name] refuses to answer the heart."))
+		to_chat(H, span_notice("You refuse Eora's Heart."))
+		return
+
+	if(!src || !user || !H)
+		return
+	if(get_dist(user, H) > 1)
+		to_chat(user, span_warning("Too far away."))
+		return
+
+	last_used = world.time
+
 	var/cnt = eora_get_partner_count(H)
 	var/list/names = eora_get_partner_names(H)
 
-	to_chat(user, span_notice("Eora's Whisper: [html_encode(H.name)] has <b>[cnt]</b> unique partner[cnt==1 ? "" : "s"] this round."))
+	to_chat(user, span_notice("Eora's Whisper: [html_encode(H.name)] has <b>[cnt]</b> unique partner[cnt == 1 ? "" : "s"] this round."))
 	if(names && names.len)
 		to_chat(user, "<span class='info'>Names:</span>")
 		for(var/N in names)
 			to_chat(user, " • [html_encode(N)]")
 	else
 		to_chat(user, "<span class='info'>No names to show.</span>")
+
+	to_chat(H, span_notice("Eora's Heart answers [user.name]."))
 
 	playsound(user, 'sound/magic/whiteflame.ogg', 50, FALSE)
 

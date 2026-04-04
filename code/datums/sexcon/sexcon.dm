@@ -538,6 +538,9 @@
 			user.add_stress(/datum/stressevent/cummax)
 	if(!oral && force >= SEX_FORCE_HIGH && user.has_flaw(/datum/charflaw/addiction/sadist)) // force pain emote if top is a sadist
 		target.emote("paincrit", forced = TRUE)
+	if(ishuman(user) && ishuman(target) && user.client && target.client)
+		eora_register_consensual_pair(user, target)		
+
 
 /datum/sex_controller/proc/just_ejaculated()
 	return (last_ejaculation_time + 2 SECONDS >= world.time)
