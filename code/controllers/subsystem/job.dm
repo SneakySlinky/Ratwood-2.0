@@ -889,6 +889,10 @@ SUBSYSTEM_DEF(job)
 				destination = pick(GLOB.jobspawn_overrides["Towner"])
 				destination.JoinPlayerHere(M, FALSE)
 				return
+			if(latejoin_trackers.len)
+				destination = pick(latejoin_trackers)
+				destination.JoinPlayerHere(M, buckle)
+				return
 			if(spawn_resident_in_tavern(H))
 				return
 	if(M.mind && M.mind.assigned_role && length(GLOB.jobspawn_overrides[M.mind.assigned_role])) //We're doing something special today.
