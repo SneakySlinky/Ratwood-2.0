@@ -111,11 +111,15 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/phobia = "spiders"
 	var/shake = TRUE
 	var/sexable = FALSE
+	var/chastenable = FALSE
+	var/chastity_hardmode = CHASTITY_HARDMODE_DISABLED
+	var/extreme_erp = FALSE
+	var/edging = FALSE
 	var/compliance_notifs = TRUE
 	var/skillcap_notifs = TRUE
 	var/restricted_species_pref = null
 	var/wildshape_name = TRUE
-	var/xenophobe_pref = 1
+	var/xenophobe_pref = 0
 
 	var/list/custom_names = list()
 	var/preferred_ai_core_display = "Blue"
@@ -206,7 +210,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/no_autopunctuate = FALSE
 	var/no_language_fonts = FALSE
 	var/no_language_icon = FALSE
-
+	var/ghost_protection = FALSE
 	var/lastclass
 
 	var/uplink_spawn_loc = UPLINK_PDA
@@ -344,6 +348,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/list/nsfw_img_gallery = list()
 
 	var/datum/familiar_prefs/familiar_prefs
+	var/datum/gnoll_prefs/gnoll_prefs
 
 	var/taur_type = null
 	var/taur_color = "ffffff"
@@ -363,6 +368,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	parent = C
 	migrant  = new /datum/migrant_pref(src)
 	familiar_prefs = new /datum/familiar_prefs(src)
+	gnoll_prefs = new /datum/gnoll_prefs(src)
 
 	for(var/custom_name_id in GLOB.preferences_custom_names)
 		custom_names[custom_name_id] = get_default_name(custom_name_id)
@@ -545,7 +551,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 				if(family == FAMILY_PARTIAL)
 					spousename = "Preferred Parent"
 				dat += "<b>[spousename]:</b> <a href='?_src_=prefs;preference=setspouse'>[setspouse ? setspouse : "None"]</a><BR>"
-				if(family == FAMILY_NEWLYWED || family == FAMILY_FULL)
+				if(family != FAMILY_NONE)
 					dat += "<b>Preferred Gender:</b> <a href='?_src_=prefs;preference=gender_choice'>[gender_choice ? gender_choice : "Any Gender"]</a><BR>"
 					var/species_text
 					if(xenophobe_pref == 1)
@@ -619,6 +625,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<b>Unrevivable:</b> <a href='?_src_=prefs;preference=dnr;task=input'>[dnr_pref ? "Yes" : "No"]</a><BR>"
 
 			dat += "<b>Be a Familiar:</b><a href='?_src_=prefs;preference=familiar_prefs;task=input'>Familiar Preferences</a>"
+
+			dat += "<br><b>Gnoll Customization:</b><a href='?_src_=prefs;preference=gnoll_prefs;task=input'>Gnoll Preferences</a>"
 
 /*
 			dat += "<br><br><b>Special Names:</b><BR>"
@@ -976,8 +984,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 				dat += "<a class='linkOff' href='byond://?src=[REF(N)];late_join=1'>JOINLATE</a>"
 			dat += " - <a href='?_src_=prefs;preference=migrants'>MIGRATION</a>"
 			dat += "<br><a href='?_src_=prefs;preference=manifest'>ACTORS</a>"
-			// Check the git blame for why this was removed.
-			//dat += " - <a href='?_src_=prefs;preference=observe'>VOYEUR</a>"
+			dat += " - <a href='?_src_=prefs;preference=observe'>SPECTATE</a>"
 	else
 		dat += "<a href='?_src_=prefs;preference=finished'>DONE</a>"
 
@@ -1018,8 +1025,17 @@ GLOBAL_LIST_EMPTY(chosen_names)
 		var ctrl = e.ctrlKey ? 1 : 0;
 		var shift = e.shiftKey ? 1 : 0;
 		var numpad = (95 < e.keyCode && e.keyCode < 112) ? 1 : 0;
+		var main_key = e.key;
+		switch (main_key){
+			case '#':main_key = '%23';
+			break;
+			case '&':main_key = '%26';
+			break;
+			case '=':main_key = '%3D';
+			break;
+		};
 		var escPressed = e.keyCode == 27 ? 1 : 0;
-		var url = 'byond://?_src_=prefs;preference=keybinds;task=keybindings_set;keybinding=[kb.name];old_key=[old_key];clear_key='+escPressed+';key='+e.key+';alt='+alt+';ctrl='+ctrl+';shift='+shift+';numpad='+numpad+';key_code='+e.keyCode;
+		var url = 'byond://?_src_=prefs;preference=keybinds;task=keybindings_set;keybinding=[kb.name];old_key=[old_key];clear_key='+escPressed+';key='+main_key+';alt='+alt+';ctrl='+ctrl+';shift='+shift+';numpad='+numpad+';key_code='+e.keyCode;
 		window.location=url;
 		deedDone = true;
 	}
@@ -2377,6 +2393,9 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 				if("familiar_prefs")
 					familiar_prefs.fam_show_ui()
 
+				if("gnoll_prefs")
+					gnoll_prefs.gnoll_show_ui(user)
+
 				if("species")
 					var/list/species = list()
 					for(var/A in GLOB.roundstart_races)
@@ -2628,7 +2647,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						family = new_family
 						setspouse = null
 						gender_choice = ANY_GENDER
-						xenophobe_pref = 1
+						xenophobe_pref = 0
 				//Setspouse is part of the family subsystem. It will check existing families for this character and attempt to place you in this family.
 				if("setspouse")
 					var/newspouse = tgui_input_text(user, "INPUT THE IDENTITY OF ANOTHER HERO", "TIL DEATH DO US PART")
@@ -2649,8 +2668,6 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 							gender_choice = new_gender_choice
 				if("species_choice")
 					var/list/restriction_options = list("Unrestricted", "Same Race", "Select Specific Race")
-					if(family == FAMILY_FULL)
-						restriction_options -= "Unrestricted"
 					var/choice = tgui_input_list(user, "SELECT SPOUSE SPECIES RESTRICTION", "SPECIES RESTRICTION", restriction_options)
 					if(choice == "Unrestricted")
 						xenophobe_pref = 0
@@ -2870,11 +2887,10 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					parent.view_actors_manifest()
 					return
 
-				// Check the git blame for why this was removed.
-				// if("observe")
-				// 	var/mob/dead/new_player/P = user
-				// 	P.make_me_an_observer()
-				// 	return
+				if("observe")
+					var/mob/dead/new_player/P = user
+					P.make_me_an_observer()
+					return
 
 				if("finished")
 					user << browse(null, "window=latechoices") //closes late choices window
@@ -2999,7 +3015,21 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 	return FALSE
 
 
-/datum/preferences/proc/copy_to(mob/living/carbon/human/character, icon_updates = 1, roundstart_checks = TRUE, character_setup = FALSE, antagonist = FALSE)
+/datum/preferences/proc/copy_to(mob/living/carbon/human/character, icon_updates = 1, roundstart_checks = TRUE, character_setup = FALSE, antagonist = FALSE, skip_normal_prefs = FALSE)
+	if(skip_normal_prefs)
+		// For gnolls spawning from a non-gnoll base slot, we must not apply any base-slot state.
+		// Set species to gnoll immediately so advclass check_requirements can read dna.species.type.
+		character.set_species(/datum/species/gnoll, icon_update = FALSE)
+		// Set gender to MALE as a neutral default; gnoll pronouns override the displayed pronoun.
+		character.gender = MALE
+		if(gnoll_prefs?.gnoll_pronouns)
+			character.pronouns = gnoll_prefs.gnoll_pronouns
+		var/gnoll_name = gnoll_prefs?.ensure_gnoll_name() || "Gnoll"
+		character.real_name = gnoll_name
+		character.name = gnoll_name
+		character.dna.real_name = gnoll_name
+		return
+
 	if(randomise[RANDOM_SPECIES] && !character_setup)
 		random_species()
 
