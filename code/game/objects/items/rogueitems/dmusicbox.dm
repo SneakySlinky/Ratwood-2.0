@@ -114,13 +114,26 @@ GLOBAL_VAR_INIT(musicboxes_last_play, 0) //last time of the last played track, t
 		return
 	lastfilechange = world.time
 	GLOB.musicboxes_last_upload = world.time
-	var/rng_number = "[rand(1,99)]" // prevent chance of file overwriting
-	fcopy(infile,"data/jukeboxuploads/[user.ckey]/[rng_number][filename]")
-	curfile = file("data/jukeboxuploads/[user.ckey]/[rng_number][filename]")
+	var/logged_filename = "data/jukeboxuploads/round-[GLOB.round_id ? GLOB.round_id : "NULL"]/[user.ckey[1]]/[user.ckey]/[time2text(world.time, "hh_mm_ss", 0)][file_ext]"
+	if(fexists(logged_filename))
+		fdel(logged_filename)
+	if(!fcopy(infile, logged_filename))
+		to_chat(user, span_warning("Could not upload song."))
+		return
+	if(QDELETED(user) || QDELETED(src))
+		return
+	if(fexists(logged_filename))
+		curfile = file(logged_filename)
+		if(!curfile || length(curfile) != file_size)
+			curfile = null
+			user.log_message("attempted to upload jukebox song: [logged_filename]", LOG_GAME)
+		else
+			user.log_message("uploaded jukebox song: [logged_filename]", LOG_GAME)
+	else
+		curfile = null
 
 	loaded = FALSE
 	update_icon()
-
 
 /obj/item/dmusicbox/attack_self(mob/living/user)
 	. = ..()
@@ -143,9 +156,12 @@ GLOBAL_VAR_INIT(musicboxes_last_play, 0) //last time of the last played track, t
 			soundloop.mid_sounds = list(curfile)
 			soundloop.cursound = null
 			soundloop.start()
+			user.log_message("played jukebox song: [curfile]", LOG_GAME)
 	else
 		playing = FALSE
 		soundloop.stop()
+		if(curfile)
+			user.log_message("stopped jukebox song: [curfile]", LOG_GAME)
 	update_icon()
 
 /obj/item/dmusicbox/proc/find_free_channel()
