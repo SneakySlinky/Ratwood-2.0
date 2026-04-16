@@ -90,6 +90,10 @@ GLOBAL_VAR_INIT(musicboxes_last_play, 0) //last time of the last played track, t
 		say("ONE COIN, A COPPER COIN FOR AN AFTERNOON OF JOY!")
 		return
 	playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
+	INVOKE_ASYNC(src, PROC_REF(upload_file), user) // call as thread to avoid halting while waiting for user file input
+
+/obj/item/dmusicbox/proc/upload_file(mob/user)
+	set waitfor = FALSE
 	var/infile = input(user, "CHOOSE A NEW SONG", src) as null|file
 
 	if(!infile)
@@ -120,7 +124,9 @@ GLOBAL_VAR_INIT(musicboxes_last_play, 0) //last time of the last played track, t
 	if(!fcopy(infile, logged_filename))
 		to_chat(user, span_warning("Could not upload song."))
 		return
-	if(QDELETED(user) || QDELETED(src))
+	if(QDELETED(user) || QDELETED(src)) // clean up uploaded file if object/user was deleted while upload was in progress
+		if(fexists(logged_filename))
+			fdel(logged_filename)
 		return
 	if(fexists(logged_filename))
 		curfile = file(logged_filename)
