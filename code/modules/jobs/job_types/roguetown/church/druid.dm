@@ -116,7 +116,8 @@
 	if(!H || !H.mind || !H.patron)
 		return
 	ADD_TRAIT(H, TRAIT_CLERGYRADICAL, "job")
-	H.church_favor += 1500
+	H.miracle_points += 3
+	H.church_favor += 1600
 	H.reset_clergy_devotion(CLERIC_T4, CLERIC_REGEN_MAJOR, TRUE, CLERIC_REQ_4)
 	to_chat(H, span_notice("I embrace the radical path."))
 

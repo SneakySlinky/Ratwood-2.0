@@ -1138,8 +1138,8 @@ var/global/list/Q_WITNESS_EFFECTS = list(
 
 	var/list/diff_tithe = list(
 		"easy"   = list("required_sum" = 100, "reward" = 100),
-		"medium" = list("required_sum" = 250, "reward" = 150),
-		"hard"   = list("required_sum" = 500, "reward" = 200)
+		"medium" = list("required_sum" = 150, "reward" = 150),
+		"hard"   = list("required_sum" = 200, "reward" = 200)
 	)
 
 	var/list/tithe_diffs = list()
