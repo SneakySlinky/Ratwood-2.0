@@ -161,3 +161,7 @@
   - bugfix: Examine runtime.
   Xander3359:
   - bugfix: Fix void dragon not dropping the spell points scrolls
+2026-04-16:
+  zeroisthebiggay:
+  - image: fixes a stray pixel on the warden hood
+  - balance: reduces spellcost of message and mindlink by one
