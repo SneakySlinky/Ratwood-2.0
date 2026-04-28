@@ -8,6 +8,13 @@
 	icon = 'modular_deserttown/icons/drapes.dmi'
 	icon_state = "desertdrape"
 
+/datum/crafting_recipe/roguetown/structure/zybdrape
+	name = "desert drape"
+	result = /obj/structure/drape/desert
+	reqs = list(/obj/item/natural/cloth = 2)
+	craftdiff = 1
+	ignoredensity = TRUE
+
 /obj/structure/drape/zybantine
 	name = "zybantine drape"
 	desc = "Made from prestigious fabric."
@@ -18,6 +25,14 @@
 /obj/structure/drape/zybantine/Initialize()
 	. = ..()
 	icon_state = "zybantinedrape[rand(1, 2)]"
+
+/datum/crafting_recipe/roguetown/structure/zybdrapefancy
+	name = "fancy zybantine drape"
+	result = /obj/structure/drape/zybantine
+	reqs = list(/obj/item/natural/cloth = 2, /obj/item/natural/silk= 2 )
+	craftdiff = 4
+	ignoredensity = TRUE
+	wallcraft = TRUE
 
 //cushion
 /obj/item/cushion/desert1
@@ -35,6 +50,24 @@
 	icon = 'modular_deserttown/icons/cushions.dmi'
 	icon_state = "zybantinecushion"
 
+/datum/crafting_recipe/roguetown/sewing/zybcushion1
+	name = "desert cushion (yellow)"
+	result = list(/obj/item/cushion/desert1)
+	reqs = list(/obj/item/natural/cloth = 2)
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/sewing/zybcushion2
+	name = "desert cushion (grey)"
+	result = list(/obj/item/cushion/desert2)
+	reqs = list(/obj/item/natural/cloth = 2)
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/sewing/zybcushionfancy
+	name = "zybantine cushion"
+	result = list(/obj/item/cushion/zybantine)
+	reqs = list(/obj/item/natural/silk = 2)
+	craftdiff = 4
+
 //kegs
 
 /// The original hierarchy for barrels and buckets is kind of messy, and I didn't want to refactor it all to have sane subtypes.
@@ -46,19 +79,43 @@
 	icon = 'modular_deserttown/icons/pots.dmi'
 	icon_state = "sandpot1"
 
+/datum/crafting_recipe/roguetown/structure/sandpot
+	name = "sand pot"
+	result = /obj/structure/fermentation_keg/sandpot
+	reqs = list(/obj/item/natural/clay = 1)
+	verbage_simple = "make"
+	verbage = "makes"
+	skillcraft = /datum/skill/craft/ceramics
+	craftdiff = 1
+
 /obj/structure/fermentation_keg/fancypot
 	name = "fancy pot"
 	desc = "Decorative and Practical!"
 	icon = 'modular_deserttown/icons/pots.dmi'
 	icon_state = "fancypot1"
 
+/datum/crafting_recipe/roguetown/structure/fancypot
+	name = "sand pot (fancy)"
+	result = /obj/structure/fermentation_keg/fancypot
+	reqs = list(/obj/item/natural/clay = 1)
+	verbage_simple = "make"
+	verbage = "makes"
+	skillcraft = /datum/skill/craft/ceramics
+	craftdiff = 3
 
 /obj/item/reagent_containers/glass/bucket/tinypot
 	name = "tiny pot"
 	icon = 'modular_deserttown/icons/pots.dmi'
 	icon_state = "tinypot1"
 
-
+/datum/crafting_recipe/roguetown/structure/tinypot
+	name = "small clay pot"
+	result = /obj/item/reagent_containers/glass/bucket/tinypot
+	reqs = list(/obj/item/natural/clay = 1)
+	verbage_simple = "make"
+	verbage = "makes"
+	skillcraft = /datum/skill/craft/ceramics
+	craftdiff = 2
 
 /obj/structure/fermentation_keg/sandpot/Initialize()
 	. = ..()
@@ -143,6 +200,17 @@
 	anchored = TRUE
 	cookonme = FALSE
 
+/datum/crafting_recipe/roguetown/structure/fireplace/desert
+	name = "desert fireplace"
+	result = /obj/machinery/light/rogue/campfire/fireplace/desert
+	// reqs = list(/obj/item/grown/log/tree/small = 1,
+	// 			/obj/item/natural/stoneblock = 3)
+	// verbage_simple = "build"
+	// verbage = "builds"
+	// skillcraft = /datum/skill/craft/masonry
+	// wallcraft = TRUE
+
+
 ///////////
 
 /obj/structure/pillar
@@ -167,14 +235,17 @@
 /obj/structure/pillar/sand1
 	icon_state = "sandpillar1"
 
+/datum/crafting_recipe/roguetown/structure/pillar/desert
+	name = "sandstone pillar"
+	result = /obj/structure/pillar/sand1
+	reqs = list(/obj/item/natural/stone = 2)
+	verbage_simple = "builds"
+	verbage = "builds"
+	skillcraft = /datum/skill/craft/masonry
+	craftdiff = 4
+
 
 ////chairs
-
-/obj/item/chair/wood/zybantine
-	name = "zybantine chair"
-	icon = 'modular_deserttown/icons/chairs.dmi'
-	icon_state = "zybantinechair"
-	origin_type = /obj/structure/chair/wood/zybantine
 
 /obj/structure/chair/wood/zybantine
 	name = "zybantine chair"
@@ -186,6 +257,14 @@
 	icon_state = "zybantinethrone"
 	icon = 'modular_deserttown/icons/throne.dmi'
 	pixel_x = -16
+
+/datum/crafting_recipe/roguetown/structure/chair/zyb
+	name = "wooden chair"
+	result = /obj/structure/chair/wood/zybantine
+	reqs = list(/obj/item/grown/log/tree/small = 1)
+	verbage_simple = "construct"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
 
 
 /obj/structure/chair/sofa
@@ -308,18 +387,9 @@
 	stump_type = null
 	pixel_x = -32
 
-// /obj/structure/flora/roguetree/palm/burnt/Initialize()
-// 	. = ..()
-// 	icon_state = "st[rand(1,2)]"
-
-//Stairs
-
-/obj/structure/stairs/desert
-	name = "sand stairs"
-	icon = 'modular_deserttown/icons/sandstairs.dmi'
-	icon_state = "sandstairs"
-	max_integrity = 600
-
+/obj/structure/flora/roguetree/stump/palm/Initialize()
+	. = ..()
+	icon_state = "palmstump[rand(1,2)]"
 
 /obj/structure/flora/roguegrass/bush/wall/tall/desert
 	icon = 'modular_deserttown/icons/alt/foliagetall.dmi'
@@ -328,6 +398,13 @@
 // 	. = ..()
 // 	icon_state = "tallbush[pick(1,2)]"
 
+//Stairs
+
+/obj/structure/stairs/desert
+	name = "sand stairs"
+	icon = 'modular_deserttown/icons/sandstairs.dmi'
+	icon_state = "sandstairs"
+	max_integrity = 600
 
 //If we need to change the number of rooms
 // /obj/structure/roguemachine/vendor/inndesert
