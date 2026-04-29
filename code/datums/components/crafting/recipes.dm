@@ -40,10 +40,6 @@
 	var/tech_unlocked = TRUE // Set to TRUE when the required tech is unlocked
 	/// Override the XP amount given on successful craft. -1 means use the default formula (STAINT*2 + craftdiff*10).
 	var/craft_xp_override = -1
-	/// String ID of required tech node, or null if no tech required
-	var/required_tech_node = null 
-	/// Set to TRUE when the required tech is unlocked
-	var/tech_unlocked = TRUE 
 	var/list/cached_display_data
 	var/cached_category
 
@@ -240,7 +236,7 @@
 		html += "<h1></h1>Suitable for all skills<br>"	
 
 	html += {"<div>
-		      <strong>Requirements</strong>
+			  <strong>Requirements</strong>
 			  <br>"}
 
 	for(var/path as anything in reqs)
@@ -264,7 +260,7 @@
 		html += {"
 		<br>
 		<div>
-		    <strong>Required Tools</strong>
+			<strong>Required Tools</strong>
 			<br>
 			  "}
 		for(var/atom/path as anything in tools)
@@ -281,7 +277,7 @@
 		html += {"
 		<br>
 		<div>
-		    <strong>Required Liquids</strong>
+			<strong>Required Liquids</strong>
 			<br>
 			  "}
 		for(var/atom/path as anything in chem_catalysts)
