@@ -5,8 +5,8 @@
 	name = "Inner Dunes"
 	icon_state = "desert"
 	soundenv = 19
-	ambientsounds = AMB_MOUNTAIN
-	ambientnight = AMB_MOUNTAIN
+	ambientsounds = AMB_TOWNDAY
+	ambientnight = AMB_TOWNNIGHT
 	spookysounds = SPOOKY_GEN
 	spookynight = SPOOKY_GEN
 	ambush_times = list("night")
@@ -37,8 +37,8 @@
 	name = "Deep Dunes"
 	icon_state = "desertdeep"
 	warden_area = TRUE
-	ambientsounds = AMB_MOUNTAIN
-	ambientnight = AMB_MOUNTAIN
+	ambientsounds = AMB_TOWNDAY
+	ambientnight = AMB_TOWNNIGHT
 	spookysounds = SPOOKY_GEN
 	spookynight = SPOOKY_GEN
 	first_time_text = "Deep Dunes"

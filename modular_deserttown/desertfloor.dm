@@ -64,6 +64,15 @@
 /turf/open/floor/rogue/sandbrick/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
 
+/datum/crafting_recipe/roguetown/turfs/desert/sandbrickfloor
+	name = "sandbrick floor"
+	result = /turf/open/floor/rogue/sandbrick
+	reqs = list(/obj/item/natural/stone = 1)
+	skillcraft = /datum/skill/craft/masonry
+	verbage_simple = "construct"
+	verbage = "constructs"
+	craftdiff = 1
+
 /turf/open/floor/rogue/sandbrick/Initialize()
 	. = ..()
 	dir = pick(GLOB.cardinals)
@@ -134,7 +143,6 @@
 	. = ..()
 	icon_state = "city-brick6-[rand(1,2)]"
 
-
 /turf/open/floor/rogue/lightpath
 	icon_state = "light-path1"
 	icon = 'modular_deserttown/icons/desertfloor.dmi'
@@ -174,6 +182,14 @@
 	dir = pick(GLOB.cardinals)
 	icon_state = "dark-path[rand(1,8)]"
 
+/datum/crafting_recipe/roguetown/turfs/desert/darksandbrickfloor
+	name = "dark sandbrick floor"
+	result = /turf/open/floor/rogue/darkpath
+	reqs = list(/obj/item/natural/stone = 1)
+	skillcraft = /datum/skill/craft/masonry
+	verbage_simple = "construct"
+	verbage = "constructs"
+	craftdiff = 1
 
 /obj/effect/decal/desertgrassedge
 	name = ""
@@ -210,7 +226,10 @@
 						/turf/open/floor/rogue/grasspurple,
 						/turf/open/floor/rogue/snowpatchy,
 						/turf/open/floor/rogue/snow,
-						/turf/open/floor/rogue/snowrough,)
+						/turf/open/floor/rogue/snowrough,
+						/turf/open/floor/rogue/cobble,
+						/turf/open/floor/rogue/cobblerock,
+						/turf/open/floor/rogue/cobble/mossy,)
 	neighborlay = "desertgrassedge"
 	spread_chance = 15
 	burn_power = 6
@@ -227,12 +246,18 @@
 	. = ..()
 	src.ChangeTurf(/turf/open/floor/rogue/dirt/desert, flags = CHANGETURF_INHERIT_AIR)
 
+/turf/open/floor/rogue/desert_grass/nospawn
+
 /turf/open/floor/rogue/dirt/desert
 	icon = 'modular_deserttown/icons/desertfloor.dmi'
+	
+/turf/open/floor/rogue/dirt/desert/nospawn
 
 /turf/open/floor/rogue/dirt/road/desert
 	icon = 'modular_deserttown/icons/desertfloor.dmi'
 
+/turf/open/floor/rogue/grass/desert
+	icon = 'modular_deserttown/icons/desertfloor.dmi'
 
 ///.
 
