@@ -1927,13 +1927,13 @@
 				return
 			if(!do_after(user, 5 SECONDS))
 				return
-			user.say("BAOTHA CHANGEME!!")
+			user.say("Lady, my Lady...")
 			if(!do_after(user, 5 SECONDS))
 				return
-			user.say("BAOTHA CHANGEME!!")
+			user.say("Wrap thee in darkness, swaddle thee in dark majesty, and armor thee in desire...")
 			if(!do_after(user, 5 SECONDS))
 				return
-			user.say("BAOTHA CHANGEME!!")
+			user.say("Let all those who look upon me see thy beauty and despair!!")
 			if(!do_after(user, 5 SECONDS))
 				return
 			icon_state = "baotha_active"
@@ -2038,7 +2038,7 @@
 
 /obj/structure/ritualcircle/baotha/proc/baothaarmor(mob/living/carbon/human/target)
 	if(!HAS_TRAIT(target, TRAIT_DEPRAVED))
-		loc.visible_message(span_cult("THE RITE REJECTS ONE NOT OF THE CHANGEME"))
+		loc.visible_message(span_cult("THE RITE REJECTS ONE NOT OF HER LOVE"))
 		return
 	target.Stun(60)
 	target.Knockdown(60)
@@ -2057,7 +2057,7 @@
 		if(!HAS_TRAIT(target, TRAIT_OVERTHERETIC))
 			ADD_TRAIT(target, TRAIT_OVERTHERETIC, TRAIT_MIRACLE)
 		spawn(40)
-			to_chat(target, span_purple("CHANGEME."))
+			to_chat(target, span_purple("All will love you and despair."))
 
 //TIME FOR THE ONE. Exclusive to ABSOLVERS. Allowing conversion, deconversion and removal of rite armour.
 //'Lesser' expenditure allows us to have a stopgap to this, while not entirely making poultice farming useless.
