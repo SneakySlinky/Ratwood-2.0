@@ -361,7 +361,7 @@
 			btm.emote("painmoan", forced = TRUE)
 			btm.sexcon.try_do_pain_effect(PAIN_MILD_EFFECT, FALSE)
 		add_cum_floor(get_turf(btm))
-		if(top.sexcon.knotted_part_partner&(SEX_PART_CUNT|SEX_PART_ANUS)) // use top's knotted_part_partner var to check what effect we need to apply, as bottom may be double knotted or more
+		if(top.sexcon.knotted_part_partner&(SEX_PART_CUNT|SEX_PART_ANUS|SEX_PART_SLIT_SHEATH)) // use top's knotted_part_partner var to check what effect we need to apply, as bottom may be double knotted or more
 			var/datum/status_effect/facial/internal/creampie = btm.has_status_effect(/datum/status_effect/facial/internal)
 			if(!creampie)
 				btm.apply_status_effect(/datum/status_effect/facial/internal)
@@ -379,15 +379,15 @@
 			var/datum/status_effect/facial/facial = btm.has_status_effect(/datum/status_effect/facial)
 			if(!facial)
 				btm.apply_status_effect(/datum/status_effect/facial)
-				btm.visible_message(span_love("[btm] takes a load in their mouth!"), span_love("I take a load in my mouth!"))
+				btm.visible_message(span_love("[btm] takes a load down their throat!"), span_love("I take a load down my throat!"))
 			else
 				facial.refresh_cum()
 			if(btm.reagents)
 				if(top.getorganslot(ORGAN_SLOT_PENIS))
-					var/obj/item/organ/testicles/testes = top.getorganslot(ORGAN_SLOT_TESTICLES)
-					btm.reagents.add_reagent(/datum/reagent/erpjuice/cum, testes?.ball_size > DEFAULT_TESTICLES_SIZE ? 6 : 3)
+					btm.reagents.add_reagent(/datum/reagent/erpjuice/cum, top.sexcon.get_semen_volume())
 				else
 					btm.reagents.add_reagent(/datum/reagent/erpjuice/femcum, 2)
+			top.sexcon.apply_cum_consumed_buff(btm)
 			modular_record_collar_receive_event(btm, top)
 	knot_exit(keep_top_status, keep_btm_status)
 
