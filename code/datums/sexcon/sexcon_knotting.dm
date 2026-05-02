@@ -365,7 +365,7 @@
 			var/datum/status_effect/facial/internal/creampie = btm.has_status_effect(/datum/status_effect/facial/internal)
 			if(!creampie)
 				btm.apply_status_effect(/datum/status_effect/facial/internal)
-				btm.visible_message(span_love("[btm] takes a load on their body!"), span_love("I take a load on my body!"))
+				btm.visible_message(span_love("[btm] takes a load inside them!"), span_love("I take a load inside me!"))
 			else
 				creampie.refresh_cum()
 			if(top?.dna?.species?.id == "gnoll")
