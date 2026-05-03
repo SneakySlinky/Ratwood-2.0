@@ -36,19 +36,22 @@ SUBSYSTEM_DEF(soundloopers)
 			if(thing.sound_loop()) //returns 1 if it fails for some reason
 				continue
 
+		if(check_clients && thing.persistent_loop)
+			for(var/client/C in GLOB.clients)
+				if(C.mob) //Not in the lobby
+					C.update_sounds()
+
 		if (MC_TICK_CHECK)
 			return
-
-	if(check_clients)
-		for(var/client/C in GLOB.clients)
-			if(C.mob)
-				C.update_sounds()
 
 /client/proc/update_sounds()
 
 	//First we need to periodically scan if we moved into range of an already-playing sound
 	for(var/datum/looping_sound/PS in GLOB.persistent_sound_loops)
 		if(PS in played_loops) //Make sure it's not already on the list
+			continue
+
+		if((istype(PS, /datum/looping_sound/instrument) || istype(PS, /datum/looping_sound/musloop) || istype(PS, /datum/looping_sound/dmusloop)) && !(prefs?.toggles & SOUND_INSTRUMENTS))
 			continue
 
 		var/atom/PS_parent = PS.parent.resolve()
@@ -60,7 +63,7 @@ SUBSYSTEM_DEF(soundloopers)
 		if(get_dist(get_turf(mob),parent_turf) > world.view + PS.extra_range) //Too far away. get_dist shouldn't be too awful for repeated calcs
 			continue
 
-		if(abs(mob_turf.z - parent_turf.z) > 2) // get_dist does not reliably enforce vertical range for these loops
+		if(mob_turf.z - parent_turf.z > 2 || mob_turf.z - parent_turf.z < 2) //for some reason get_dist not checking this properly
 			continue
 
 		//otherwise add it to the client loops and off we go from there
@@ -76,6 +79,21 @@ SUBSYSTEM_DEF(soundloopers)
 	for(var/datum/looping_sound/loop in played_loops)
 		if (!loop)
 			played_loops -= loop
+			continue
+
+		if((istype(loop, /datum/looping_sound/instrument) || istype(loop, /datum/looping_sound/musloop) || istype(loop, /datum/looping_sound/dmusloop)) && !(prefs?.toggles & SOUND_INSTRUMENTS))
+			var/list/muted_loop = played_loops[loop]
+			var/sound/muted_sound = muted_loop?["SOUND"]
+			if(loop.persistent_loop)
+				muted_loop["MUTESTATUS"] = TRUE
+				muted_loop["VOL"] = 0
+				if(muted_sound)
+					mob.mute_sound(muted_sound)
+			else
+				played_loops -= loop
+				loop.thingshearing -= WEAKREF(mob)
+				if(muted_sound)
+					mob.stop_sound_channel(muted_sound.channel)
 			continue
 		
 		var/atom/loop_parent = loop.parent?.resolve()
@@ -141,14 +159,7 @@ SUBSYSTEM_DEF(soundloopers)
 			else if (source_turf.z == mob.z + 2 || source_turf.z == mob.z - 2)
 				new_volume = new_volume / 4
 
-			if(istype(loop, /datum/looping_sound/instrument))
-				new_volume = new_volume * (prefs.instrumentvol * 0.01)
-
 			new_volume = new_volume * (prefs.mastervol * 0.01) //Modify it at the end by the player's volume setting
-
-			if(loop.persistent_loop && found_loop["MUTESTATUS"] == TRUE)
-				found_loop["MUTESTATUS"] = FALSE
-				mob.unmute_sound(found_sound)
 
 			if(old_volume != new_volume)
 				var/turf/T = get_turf(mob)
@@ -165,6 +176,9 @@ SUBSYSTEM_DEF(soundloopers)
 //				var/dy = source_turf.z - T.z
 //				found_sound.y = dy
 
+				if(loop.persistent_loop && found_loop["MUTESTATUS"] == TRUE) //It was out of range and now back in range, reset it
+					found_loop["MUTESTATUS"] = FALSE
+					mob.unmute_sound(found_sound)
 				found_loop["VOL"] = new_volume
 				mob.update_sound_volume(played_loops[loop]["SOUND"], new_volume)
 

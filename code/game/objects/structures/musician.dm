@@ -3,8 +3,6 @@
 #define MUSIC_MAXLINES 300
 #define MUSIC_MAXLINECHARS 50
 
-GLOBAL_VAR_INIT(instrument_channel_next, CHANNEL_INSTRUMENT_MAX)
-
 /datum/song
 	var/name = "Untitled"
 	var/list/lines = new()
@@ -72,14 +70,6 @@ GLOBAL_VAR_INIT(instrument_channel_next, CHANNEL_INSTRUMENT_MAX)
 			LAZYADD(hearing_mobs, M)
 		last_hearcheck = world.time
 
-	if(!GLOB.instrument_channel_next)
-		GLOB.instrument_channel_next = CHANNEL_INSTRUMENT_MAX
-
-	var/note_channel = GLOB.instrument_channel_next
-	GLOB.instrument_channel_next--
-	if(GLOB.instrument_channel_next < CHANNEL_INSTRUMENT_MIN)
-		GLOB.instrument_channel_next = CHANNEL_INSTRUMENT_MAX
-
 	var/sound/music_played = sound(soundfile)
 	for(var/i in hearing_mobs)
 		var/mob/M = i
@@ -88,8 +78,7 @@ GLOBAL_VAR_INIT(instrument_channel_next, CHANNEL_INSTRUMENT_MAX)
 			L.apply_status_effect(STATUS_EFFECT_GOOD_MUSIC)
 		if(!M.client || !(M.client.prefs.toggles & SOUND_INSTRUMENTS))
 			continue
-		var/note_vol = clamp(round(M.client.prefs.instrumentvol), 0, 100)
-		M.playsound_local(source, null, note_vol, falloff = 5, channel = note_channel, S = music_played, ignore_master = TRUE)
+		M.playsound_local(source, null, 100, falloff = 5, S = music_played)
 
 /datum/song/proc/updateDialog(mob/user)
 	instrumentObj.updateDialog()		// assumes it's an object in world, override if otherwise

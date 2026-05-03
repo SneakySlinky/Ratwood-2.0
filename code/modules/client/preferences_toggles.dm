@@ -117,6 +117,7 @@
 
 	var/list/audio_entries = list(
 		list("id" = "lobby_music", "label" = "Lobby Music", "enabled" = !!(owner.prefs.toggles & SOUND_LOBBY), "desc" = "Play music while in the lobby."),
+		list("id" = "hear_instruments", "label" = "Hear Instruments", "enabled" = !!(owner.prefs.toggles & SOUND_INSTRUMENTS), "desc" = "Hear bard instruments, jukeboxes, and boomboxes."),
 	)
 
 	var/list/content_entries = list(
@@ -200,6 +201,11 @@
 				owner.toggle_roleplay_ads()
 			if("lobby_music")
 				owner.toggle_lobby_music()
+			if("hear_instruments")
+				owner.prefs.toggles ^= SOUND_INSTRUMENTS
+				owner.prefs.save_preferences()
+				owner.update_sounds()
+				owner.sync_instrument_audio_toggle()
 			if("animal_emotes")
 				owner.mute_animal_emotes()
 			if("erp_panel")
@@ -745,6 +751,8 @@ TOGGLE_CHECKBOX(/datum/verbs/menu/Settings/Sound, toggle_instruments)()
 	set hidden = 1
 	usr.client.prefs.toggles ^= SOUND_INSTRUMENTS
 	usr.client.prefs.save_preferences()
+	usr.client.update_sounds()
+	usr.client.sync_instrument_audio_toggle()
 	if(usr.client.prefs.toggles & SOUND_INSTRUMENTS)
 		to_chat(usr, "You will now hear people playing musical instruments.")
 	else
