@@ -79,7 +79,7 @@
 				l_hand = /obj/item/rogueweapon/sword/short/messer/iron
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 2, TRUE)
 			if("Hatchet")
-				l_hand = /obj/item/rogueweapon/stoneaxe/handaxe
+				beltl = /obj/item/rogueweapon/stoneaxe/handaxe
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, 2, TRUE)
 
 /datum/advclass/hunter/spear
