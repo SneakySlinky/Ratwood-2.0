@@ -124,7 +124,7 @@
 		/datum/crafting_recipe/roguetown/survival/mantrap,
 		/datum/crafting_recipe/roguetown/survival/paperscroll,
 		/datum/crafting_recipe/roguetown/survival/tarot_deck,
-		/datum/crafting_recipe/roguetown/survival/tarot_deck_majorarcana
+		/datum/crafting_recipe/roguetown/survival/tarot_deck_majorarcana)
 
 	AddElement(
 		/datum/element/slapcrafting,\
