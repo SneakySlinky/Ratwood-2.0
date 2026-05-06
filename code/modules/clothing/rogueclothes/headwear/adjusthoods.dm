@@ -101,7 +101,7 @@
 	heat_protection = HEAD
 	max_heat_protection_temperature = 600
 
-/obj/item/clothing/neck/roguetown/roguehood/shalal/ComponentInitialize()
+/obj/item/clothing/head/roguetown/roguehood/shalal/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, HEAD|EARS|NECK|HAIR, HIDEHAIR|HIDEFACE, null, null, null, (UPD_HEAD|UPD_MASK|UPD_NECK))
 
 /obj/item/clothing/head/roguetown/roguehood/shalal/black
@@ -120,7 +120,7 @@
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK|ITEM_SLOT_NECK
 	block2add = null
 
-/obj/item/clothing/neck/roguetown/roguehood/shalal/hijab/ComponentInitialize()
+/obj/item/clothing/head/roguetown/roguehood/shalal/hijab/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, null, null, (UPD_HEAD|UPD_MASK|UPD_NECK))
 
 /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/zyb
