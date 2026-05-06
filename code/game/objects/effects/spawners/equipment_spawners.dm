@@ -349,3 +349,36 @@
 		/obj/item/clothing/under/roguetown/platelegs/blacksteel = 1,
 		/obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel = 1,
 	)
+
+/obj/effect/spawner/lootdrop/heresy
+	name = "heretical item spawner"
+	icon_state = "heresy"
+	lootcount = 1
+	loot = list(
+		/obj/item/rogueweapon/sword/long/zizo = 8,
+		/obj/item/clothing/under/roguetown/platelegs/zizo = 8,
+		/obj/item/clothing/suit/roguetown/armor/plate/full/zizo = 8,
+		/obj/item/clothing/shoes/roguetown/boots/armor/zizo = 8,
+		/obj/item/clothing/head/roguetown/helmet/heavy/zizo = 8,
+		/obj/item/clothing/gloves/roguetown/plate/zizo = 5,
+		/obj/item/book/rogue/bibble/zizo = 10,
+		/obj/item/flashlight/flare/torch/lantern/pumpkin/zizo = 1,
+		/obj/item/carvedgem/onyxa/snake = 5,
+		/obj/item/underworld/coin = 5,
+		/obj/item/clothing/mask/rogue/facemask/carved/onyxamask = 1,
+		/obj/item/clothing/mask/rogue/facemask/yoruku_oni = 1,
+		/obj/item/clothing/mask/rogue/facemask/carved/jademask = 1,
+		/obj/item/clothing/mask/rogue/facemask/carved/ambermask = 1,
+		/obj/item/clothing/mask/rogue/facemask/carved/coralmask = 1,
+		/obj/item/clothing/mask/rogue/facemask/carved/opalmask = 1,
+		/obj/item/clothing/mask/rogue/facemask/carved/porcelainmask = 1,
+		/obj/item/clothing/mask/rogue/facemask/carved/rosemask = 1,
+		/obj/item/clothing/mask/rogue/facemask/carved/turqmask = 1,
+		/obj/item/clothing/mask/rogue/facemask/shadowfacemask = 1,
+		/obj/item/clothing/mask/rogue/goblin_mask = 1,
+	)
+
+/obj/item/carvedgem/rose/statue/baotha
+	name = "baothan statuette"
+	desc = "A statue carved out of filthy, filthy rosestone."
+	color = "#b85cb3"
