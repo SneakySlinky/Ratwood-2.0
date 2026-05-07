@@ -6,7 +6,7 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/baotha.dmi'
 	icon_state = "baothachest"
 	item_state = "baothachest"
-	armor = ARMOR_ASCENDANT
+	// armor = ARMOR_ASCENDANT//seems all other of these use more default values so I'll follow the format
 	max_integrity = ARMOR_INT_CHEST_PLATE_ANTAG
 	equip_delay_self = 2 SECONDS
 	unequip_delay_self = 2 SECONDS
