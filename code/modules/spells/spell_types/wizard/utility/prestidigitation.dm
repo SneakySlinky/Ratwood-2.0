@@ -19,6 +19,7 @@
 	hand_path = /obj/item/melee/touch_attack/prestidigitation
 	var/mote_color = null
 
+// Re-apply saved prestidigitation color when the touch hand is summoned again.
 /obj/effect/proc_holder/spell/targeted/touch/prestidigitation/ChargeHand(mob/living/carbon/user)
 	. = ..()
 	if(!.)
@@ -56,11 +57,7 @@
 /obj/item/melee/touch_attack/prestidigitation/Initialize(mapload)
 	. = ..()
 	mote = new(src)
-	var/obj/effect/proc_holder/spell/targeted/touch/prestidigitation/base_spell = attached_spell
-	if(base_spell?.mote_color)
-		apply_mote_color(base_spell.mote_color)
-	else
-		apply_mote_color(default_mote_color)
+	apply_mote_color(default_mote_color)
 
 /obj/item/melee/touch_attack/prestidigitation/Destroy()
 	if(mote)
@@ -83,10 +80,18 @@
 		return
 
 	var/current_color = base_spell.mote_color || mote?.color || default_mote_color
-	var/picked_color = color_pick_sanitized(user, "Choose your dye:", "Dyes", current_color, 0.2, 1)
+	var/picked_color = input(user, "Choose your magelight mote color:", "Dyes", current_color) as color|null
 	if(isnull(picked_color))
 		return
+	var/picked_color_hex = sanitize_hexcolor(picked_color)
+	if(!picked_color_hex)
+		return
+	var/list/hsl = rgb2hsl(hex2num(copytext(picked_color_hex,1,3)),hex2num(copytext(picked_color_hex,3,5)),hex2num(copytext(picked_color_hex,5,7)))
+	var/lightness_percent = round(hsl[3] * 100, 0.1)
 	var/new_color = sanitize_hexcolor(picked_color, 6, TRUE)
+	if(lightness_percent < 30)
+		to_chat(user, span_warning("The picked color is too dark (minimum lightness is 30%)! Reverting to default color."))
+		new_color = default_mote_color
 
 	base_spell.mote_color = new_color
 	apply_mote_color(new_color)
@@ -107,12 +112,17 @@
 /obj/item/melee/touch_attack/prestidigitation/proc/apply_mote_color(new_color)
 	if(!new_color)
 		new_color = default_mote_color
-	color = new_color
+	if(color != new_color)
+		color = new_color
 	if(!mote)
 		return
-	mote.color = new_color
-	mote.set_light_color(new_color)
-	if(mote.light_system == STATIC_LIGHT)
+	if(mote.color != new_color)
+		mote.color = new_color
+	var/light_changed = FALSE
+	if(mote.light_color != new_color)
+		mote.set_light_color(new_color)
+		light_changed = TRUE
+	if(light_changed && mote.light_system == STATIC_LIGHT)
 		mote.update_light()
 
 /obj/item/melee/touch_attack/prestidigitation/afterattack(atom/target, mob/living/carbon/user, proximity)
