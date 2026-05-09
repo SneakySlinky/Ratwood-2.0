@@ -186,3 +186,39 @@
       shot in the face with it! Gods help you if you are both.
   zeroisthebiggay:
   - rscadd: sleuth virtue havers can see people's noble gossip
+2026-05-09:
+  Guidesu:
+  - qol: Improves the logging of several resources.
+  IronDragoon:
+  - rscadd: Mean Virtue, gives bedbreaker/nutcracker and a loadout sack of some fetish
+      items
+  Jamdrawers:
+  - rscadd: Eoran Harp Bow as a ranged option for the Eoran Templar!
+  - balance: shortbows now function as shortbows
+  - refactor: adjusted how bows are laid out
+  - bugfix: veteran battlmaster's sabre/flail options work now
+  - rscadd: Court Physician is once more a Noble
+  - rscadd: Adds a series of stat-penalty vices
+  KeberosNihilus:
+  - rscadd: Added a Noc Miracle variant of Silence. Quicker to cast, slower to cooldown.
+  - rscadd: Added a Miracle variant of Wither. No change, just scales off Miracle
+      skill.
+  - rscdel: Removed Darksight and Nocvision from Noc (the spells are still around
+      in the code)
+  - balance: Added Noc Silence and Prestidigitation to Noc's T0 spell tier.
+  - balance: Added Create Campfire to Noc's T4 Utility Spellpack
+  - balance: Removed Arcane Bolt, added Wither, added Enchant Weapon to Noc's T4 Offense
+      Spellpack
+  NotGoldenglow:
+  - balance: vampire presence ability costs have been increased by 50%, reduced in
+      duration from between 30 to 50%, and have had cooldowns doubled.
+  The-Sun-In-Splendour:
+  - rscadd: Gnolls have bedbreaker now. Have fun!
+  WeNeedMorePhoron - ported by jam:
+  - bugfix: fixes helmet storage allowing non-clothing items
+  zeroisthebiggay:
+  - balance: Self-Sustenance trait now also behaves like Failed Squire for repair
+      purposes.
+  - rscadd: Lacrima, a tier three ZIZO miracle for necromancers that tears out the
+      lux from a victim
+  - rscadd: makes the zizo bible not complete placeholder ass
