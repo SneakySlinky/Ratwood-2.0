@@ -37,13 +37,6 @@
 	id = /obj/item/scomstone/bad/garrison
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	backr = /obj/item/storage/backpack/rogue/satchel
-	backpack_contents = list(
-		/obj/item/rogueweapon/huntingknife/idagger,
-		/obj/item/storage/belt/rogue/pouch,
-		/obj/item/rogueweapon/scabbard/sheath,
-		/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
-		/obj/item/rogueweapon/hammer/copper
-		)
 
 	job_bitflag = BITFLAG_GARRISON		//Move this role to garrison section later. Shouldn't be under youngroles for transparancy they are garrison.
 
@@ -92,6 +85,13 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
 	backl = /obj/item/rogueweapon/scabbard/gwstrap
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife/idagger,
+		/obj/item/storage/belt/rogue/pouch,
+		/obj/item/rogueweapon/scabbard/sheath,
+		/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
+		/obj/item/rogueweapon/hammer/copper
+		)
 
 /datum/advclass/squire/footman
 	name = "Footman Squire"
@@ -130,6 +130,13 @@
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife/idagger,
+		/obj/item/storage/belt/rogue/pouch,
+		/obj/item/rogueweapon/scabbard/sheath,
+		/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
+		/obj/item/rogueweapon/hammer/copper
+		)
 
 	H.adjust_blindness(-3)
 	if(H.mind)
@@ -185,3 +192,10 @@
 	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife/idagger,
+		/obj/item/storage/belt/rogue/pouch,
+		/obj/item/rogueweapon/scabbard/sheath,
+		/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
+		/obj/item/rogueweapon/hammer/copper
+		)
