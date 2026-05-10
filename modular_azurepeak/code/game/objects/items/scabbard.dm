@@ -537,7 +537,7 @@
 
 	valid_blade = /obj/item/rogueweapon/sword/sabre/mulyeog
 	associated_skill = /datum/skill/combat/shields
-	possible_item_intents = list(SHIELD_BASH, SHIELD_SMASH)
+	possible_item_intents = list(SHIELD_BASH, SHIELD_BLOCK)
 	can_parry = TRUE
 	wdefense = 8
 
@@ -592,7 +592,7 @@
 	item_state = "kazscabdagger"
 	valid_blade = /obj/item/rogueweapon/huntingknife/idagger/steel/kazengun
 	associated_skill = /datum/skill/combat/shields
-	possible_item_intents = list(SHIELD_BASH, SHIELD_SMASH)
+	possible_item_intents = list(SHIELD_BASH, SHIELD_BLOCK)
 	can_parry = TRUE
 	wdefense = 3
 
