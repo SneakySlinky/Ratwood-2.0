@@ -118,12 +118,12 @@
 				if(show_message && user)
 					to_chat(user, span_warning("Unintelligible vice conflicts with Second Voice virtue!"))
 				return TRUE
-	// Lawless conflicts with: Nobility
+	// Lawless conflicts with: Nobility and High Society
 	if(vice_type == /datum/charflaw/lawless)
 		for(var/datum/virtue/virt in virtue_list)
-			if(virt && virt.type == /datum/virtue/utility/noble)
+			if(virt && virt.type == /datum/virtue/utility/noble || virt.type == /datum/virtue/pack/highsociety)
 				if(show_message && user)
-					to_chat(user, span_warning("Lawless vice conflicts with Nobility virtue - you can't be an outlaw and keep Astrata's grace!"))
+					to_chat(user, span_warning("Lawless vice conflicts with the Nobility and High Society virtues - you can't be an outlaw and keep Astrata's grace!"))
 				return TRUE
 
 	return FALSE
