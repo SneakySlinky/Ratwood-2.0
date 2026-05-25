@@ -48,6 +48,10 @@
 /obj/item/mattcoin/attack_self(mob/living/user)
 	. = ..()
 
+	if(user.restrained() || user.incapacitated())
+		to_chat(user, span_warning("I cannot use this while restrained or incapacitated!"))
+		return FALSE
+
 	if(disguised)
 		if(alert(user, "Revert disguise?", "Disguise", "Yes", "No") == "Yes")
 			name = "rontz ring"
@@ -78,6 +82,9 @@
 	update_icon()
 
 /obj/item/mattcoin/attack_right(mob/living/carbon/human/user)
+	if(user.restrained() || user.incapacitated())
+		to_chat(user, span_warning("I cannot use this while restrained or incapacitated!"))
+		return
 	user.changeNext_move(CLICK_CD_INTENTCAP)
 	var/input_text = input(user, "Enter your message:", "Message")
 	if(input_text)
@@ -92,6 +99,9 @@
 
 /obj/item/mattcoin/MiddleClick(mob/user)
 	if(.)
+		return
+	if(user.restrained() || user.incapacitated())
+		to_chat(user, span_warning("I cannot use this while restrained or incapacitated!"))
 		return
 	user.changeNext_move(CLICK_CD_INTENTCAP)
 	playsound(loc, 'sound/misc/coindispense.ogg', 100, FALSE, -1)

@@ -39,9 +39,37 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Gaming Dice Container"
 	path = /obj/item/storage/pill_bottle/dice
 
+/datum/loadout_item/dwarven_dice
+	name = "Dwarven Dice Container"
+	path = /obj/item/storage/pill_bottle/dice/dwarven
+
+/datum/loadout_item/bakers_dozen_dice
+	name = "Baker's Dozen Dice Container"
+	path = /obj/item/storage/pill_bottle/dice/bakers_dozen
+
+/datum/loadout_item/threes_away_dice
+	name = "Three's Away Dice Container"
+	path = /obj/item/storage/pill_bottle/dice/threes_away
+
+/datum/loadout_item/dice_war_dice
+	name = "Dice War Container"
+	path = /obj/item/storage/pill_bottle/dice/dice_war
+
+/datum/loadout_item/liars_dice
+	name = "Liar's Dice Container"
+	path = /obj/item/storage/pill_bottle/dice/liars_dice
+
+/datum/loadout_item/dice_poker
+	name = "Dice Poker Container"
+	path = /obj/item/storage/pill_bottle/dice/dice_poker
+
 /datum/loadout_item/tarot_deck
 	name = "Tarot Deck"
 	path = /obj/item/toy/cards/deck/tarot
+
+/datum/loadout_item/tarot_deck_majorarcana
+	name = "Tarot Deck (Major Arcana)"
+	path = /obj/item/toy/cards/deck/tarot/majorarcana
 
 /datum/loadout_item/custom_book
 	name = "Custom Book"
@@ -117,6 +145,11 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Sack"
 	path = /obj/item/storage/roguebag
 	triumph_cost = 2
+
+/datum/loadout_item/mallet
+	name = "Wooden Mallet"
+	path = /obj/item/rogueweapon/hammer/wood
+	triumph_cost = 3
 
 //ANCIENT TOOLS (Ancient Alloy)
 
@@ -302,6 +335,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Salvia Crown"
 	path = /obj/item/flowercrown/salvia
 
+/datum/loadout_item/tri_grenzelhoft_hat_capless
+	name = "Capless Grenzelhoft Hat"
+	path = /obj/item/clothing/head/roguetown/caplessgrenzelhofthat
+	
 //CLOAKS
 /datum/loadout_item/tabard
 	name = "Tabard"
@@ -450,6 +487,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/sandals
 	name = "Sandals"
 	path = /obj/item/clothing/shoes/roguetown/sandals
+
+/datum/loadout_item/toga_sandals
+	name = "Fancy Sandals"
+	path = /obj/item/clothing/shoes/roguetown/sandals/toga_sandals
 
 /datum/loadout_item/shortboots
 	name = "Short Boots"
@@ -900,6 +941,8 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Rope Belt"
 	path = /obj/item/storage/belt/rogue/leather/rope
 
+// Religious Amulets.
+
 /datum/loadout_item/psicross
 	name = "Psydonian Cross"
 	path = /obj/item/clothing/neck/roguetown/psicross
@@ -952,6 +995,22 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Ancient Zcross"
 	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/aalloy
 
+/datum/loadout_item/psicross/matthios
+	name = "Amulet of Matthios"
+	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios
+
+/datum/loadout_item/psicross/graggar
+	name = "Amulet of Graggar"
+	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar
+
+/datum/loadout_item/psicross/baotha
+	name = "Amulet of Baotha"
+	path = /obj/item/clothing/neck/roguetown/psicross/inhumen/baotha
+
+/datum/loadout_item/psicross/ten
+	name = "Amulet of Ten"
+	path = /obj/item/clothing/neck/roguetown/psicross/ten
+
 /datum/loadout_item/wedding_band
 	name = "silver wedding band"
 	path = /obj/item/clothing/ring/band
@@ -990,7 +1049,7 @@ GLOBAL_LIST_EMPTY(loadout_items)
 
 /datum/loadout_item/zcross_iron
 	name = "Zizo Cross"
-	path = /obj/item/clothing/neck/roguetown/zcross/iron
+	path = /obj/item/clothing/neck/roguetown/psicross/inhumen
 
 // NECKLACES & AMULETS
 /datum/loadout_item/skull_amulet
@@ -1352,6 +1411,10 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/tri_psydon_tabard
 	name = "Psydonian Tabard"
 	path = /obj/item/clothing/cloak/psydontabard
+
+/datum/loadout_item/tri_reform_tabard
+	name = "Reformist Tabard"
+	path = /obj/item/clothing/cloak/reformtabard
 
 /datum/loadout_item/tri_abyssor_tabard
 	name = "Abyssorite Tabard"
@@ -1761,6 +1824,11 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	path = /obj/item/clothing/head/roguetown/roguehood/hierophant
 	triumph_cost = 2
 
+/datum/loadout_item/tri_armorhood_hood
+	name = "Studded Leather Hood"
+	path = /obj/item/clothing/head/roguetown/helmet/leather/armorhood/advanced
+	triumph_cost = 2
+
 /datum/loadout_item/tri_pontifex_hood
 	name = "Pontifex Hood"
 	path = /obj/item/clothing/head/roguetown/roguehood/pontifex
@@ -2030,6 +2098,14 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Catbell Collar"
 	path = /obj/item/clothing/neck/roguetown/collar/catbell
 
+/datum/loadout_item/catbell
+	name = "Catbell"
+	path = /obj/item/catbell
+
+/datum/loadout_item/cowbell
+	name = "Cowbell"
+	path = /obj/item/catbell/cow
+
 /datum/loadout_item/rope_leash
 	name = "Rope Leash"
 	path = /obj/item/leash
@@ -2041,7 +2117,6 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/chain_leash
 	name = "Chain Leash"
 	path = /obj/item/leash/chain
-
 
 /datum/loadout_item/magic_recipes
 	name = "Guide to Arcyne"
@@ -2082,6 +2157,18 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/cooking_recipes
 	name = "Guide to Cooking"
 	path = /obj/item/recipe_book/cooking
+
+/datum/loadout_item/tenbibble
+	name = "The Verses and Acts of the Ten"
+	path = /obj/item/book/rogue/bibble
+
+/datum/loadout_item/psybibble
+	name = "Tome of Psydon"
+	path = /obj/item/book/rogue/bibble/psy
+
+/datum/loadout_item/zizobibble
+	name = "Lexicon of Her Truth"
+	path = /obj/item/book/rogue/bibble/zizo
 
 //COSMETICS (Perfumes & Lipsticks)
 

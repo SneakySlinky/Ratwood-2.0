@@ -17,7 +17,7 @@
 
 /obj/item/soap/ComponentInitialize()
 	. = ..()
-	AddComponent(/datum/component/slippery, 80)
+	AddComponent(/datum/component/slippery, 10)
 
 /obj/item/soap/examine(mob/user)
 	. = ..()
@@ -101,6 +101,8 @@
 				visible_message(span_info("[user] tries their best to scrub [target] with the [src]."))
 				to_chat(target, span_warning("That's a bit nicer, I guess."))
 				target.add_stress(/datum/stressevent/bath)
+			var/datum/charflaw/malodorous/malodorous_flaw = target.get_flaw(/datum/charflaw/malodorous)
+			malodorous_flaw?.on_bath(target)
 			uses -= 1
 			if(uses == 0)
 				qdel(src)
