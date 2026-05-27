@@ -1,0 +1,5 @@
+author: "Jamdrawers"
+delete-after: True
+changes:
+  - qol: "a great many items given a small amount of dropshrink"
+  - refactor: "cleaned up a few duplicate definitions for clothing items. Redefined an item spawner used in a singular location to be more normal."
