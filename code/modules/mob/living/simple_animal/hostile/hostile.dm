@@ -85,6 +85,10 @@ GLOBAL_VAR_INIT(hostile_ai_canattack_newplayer_rejects, 0)
 	var/retreat_health
 
 	var/next_seek
+	var/next_full_seek
+	var/lazy_seek_interval = 4
+	var/full_seek_interval = 20
+	var/use_lazy_target_scan = TRUE
 
 	cmode = 1
 	setparrytime = 30
@@ -121,7 +125,31 @@ GLOBAL_VAR_INIT(hostile_ai_canattack_newplayer_rejects, 0)
 		return 0
 	if(binded)
 		return FALSE
-	var/list/possible_targets = ListTargets() //we look around for potential targets and make it a list for later use.
+	var/list/possible_targets
+
+	// Untargeted hostiles are the common case in live rounds; keep scans cheap and infrequent.
+	if(target)
+		possible_targets = ListTargets()
+	else
+		if(search_objects || !use_lazy_target_scan)
+			possible_targets = ListTargets()
+		else if(world.time >= next_seek)
+			next_seek = world.time + lazy_seek_interval
+			var/turf/search_turf = get_turf(targets_from)
+			if(search_turf)
+				possible_targets = ListTargetsLazy(search_turf.z)
+
+		// Periodically run a full scan so object searches and non-player interactions still function.
+		if(world.time >= next_full_seek)
+			next_full_seek = world.time + full_seek_interval
+			var/list/full_targets = ListTargets()
+			if(possible_targets)
+				possible_targets |= full_targets
+			else
+				possible_targets = full_targets
+
+		if(!possible_targets)
+			possible_targets = list()
 
 	if(environment_smash)
 		EscapeConfinement()
@@ -184,12 +212,16 @@ GLOBAL_VAR_INIT(hostile_ai_canattack_newplayer_rejects, 0)
 
 /mob/living/simple_animal/hostile/attacked_by(obj/item/I, mob/living/user)
 	if(stat == CONSCIOUS && !target && AIStatus != NPC_AI_OFF && !client && user)
+		next_seek = 0
+		next_full_seek = 0
 		FindTarget(list(user), 1)
 	return ..()
 
 /mob/living/simple_animal/hostile/bullet_act(obj/projectile/P)
 	if(stat == CONSCIOUS && !target && AIStatus != NPC_AI_OFF && !client)
 		if(P.firer && get_dist(src, P.firer) <= aggro_vision_range)
+			next_seek = 0
+			next_full_seek = 0
 			FindTarget(list(P.firer), 1)
 		Goto(P.starting, move_to_delay, 3)
 	return ..()
@@ -443,6 +475,8 @@ GLOBAL_VAR_INIT(hostile_ai_canattack_newplayer_rejects, 0)
 	if(target)
 		last_aggro_loss = world.time
 	target = null
+	next_seek = 0
+	next_full_seek = 0
 	approaching_target = FALSE
 	in_melee = FALSE
 	walk(src, 0)
@@ -619,7 +653,10 @@ GLOBAL_VAR_INIT(hostile_ai_canattack_newplayer_rejects, 0)
 		if(AI_ON)
 			. = 1
 		if(AI_IDLE)
-			if(FindTarget(possible_targets, 1))
+			if(target && CanAttack(target))
+				. = 1
+				toggle_ai(AI_ON)
+			else if(FindTarget(possible_targets, 1))
 				. = 1
 				toggle_ai(AI_ON) //Wake up for more than one Life() cycle.
 			else
@@ -669,6 +706,6 @@ GLOBAL_VAR_INIT(hostile_ai_canattack_newplayer_rejects, 0)
 	. = list()
 	for (var/I in SSmobs.clients_by_zlevel[_Z])
 		var/mob/M = I
-		if (get_dist(M, src) < vision_range)
+		if (get_dist(M, targets_from) <= vision_range)
 			if (isturf(M.loc))
 				. += M
