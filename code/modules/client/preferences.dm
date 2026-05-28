@@ -3070,7 +3070,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 		character.real_name = gnoll_name
 		character.name = gnoll_name
 		character.dna.real_name = gnoll_name
-		_load_statpack(S)
+		_load_statpack()
 		return
 
 	if(randomise[RANDOM_SPECIES] && !character_setup)
